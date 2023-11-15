@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Collection Form</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            font-family: sans-serif;
+        }
+
+        body {
+            background-color: black;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            flex-basis: 400px;
+            background-color: white;
+        }
+
+        .head {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .head h3{
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .head h4{
+            font-size: 18px;
+        }
+
+        .main form {
+            padding: 20px;
+            position: relative;
+        }
+
+        .spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        .spinner::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 40px;
+            margin: 8px;
+            border-radius: 50%;
+            border: 6px solid black;
+            border-color: black transparent black transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .dropdown {
+            display: flex;
+            justify-content: end;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        /* .dropdown select {
+            height: 30px;
+            text-align: center;
+        } */
+
+        .form-outer {
+            margin-bottom: 20px;
+        }
+
+        .form-outer label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-outer input {
+            width: 96%;
+            height: 35px;
+            padding-left: 10px;
+        }
+
+        .form-outer button {
+            margin-top: 10px;
+            padding: 10px 0px;
+            width: 100%;
+            background-color: black;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        #res {
+            color: green;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="head">
+            <h3>Data Collection Form</h3>
+            <h4>Ward No - 02</h4>
+        </div>
+        <form method="post" id="form">
+            <div class="spinner"></div>
+            <!-- <div class="dropdown">
+                <select name="ward">
+                    <option value="N/A">Select Ward</option>
+                    <option value="1">Ward No - 01</option>
+                    <option value="2">Ward No - 02</option>
+                    <option value="3">Ward No - 03</option>
+                    <option value="4">Ward No - 04</option>
+                    <option value="5">Ward No - 05</option>
+                    <option value="6">Ward No - 06</option>
+                    <option value="7">Ward No - 07</option>
+                    <option value="8">Ward No - 08</option>
+                    <option value="9">Ward No - 09</option>
+                </select>
+            </div> -->
+            <div class="dropdown">
+                <select name="ward">
+                    <option value="2">Ward No - 02</option>
+                </select>
+            </div>
+            <div class="form-outer">
+                <label>Name</label>
+                <input type="text" name="name">
+            </div>
+            <div class="form-outer">
+                <label>NID Number</label>
+                <input type="number" name="nid">
+            </div>
+            <div class="form-outer">
+                <label>Father's Name</label>
+                <input type="text" name="fathers-name">
+            </div>
+            <div class="form-outer">
+                <label>Mobile Number</label>
+                <input type="tel" name="number">
+            </div>
+            <div class="form-outer">
+                <button name="btn">Submit</button>
+            </div>
+            <div id="res"></div>
+        </form>
+    </div>
+
+    <script>
+        let url = 'https://script.google.com/macros/s/AKfycbw1p3lah2tMEra5lx5RlPvic3y966IvhB0TkHn9YrF9R1mR3cXfxqaZK3A5Gbr18fSY/exec'
+        let form = document.querySelector('#form');
+        let spinner = document.querySelector('.spinner');
+        form.addEventListener("submit", (e) => {
+            spinner.style.display = 'block';
+            let d = new FormData(form);
+            fetch(url, {
+                method: "POST",
+                body: d,
+            }).then((res) => res.text())
+                .then((finalRes) => {
+                    document.getElementById("res").innerHTML = finalRes;
+                    form.reset();
+                    setTimeout(() => {
+                        document.getElementById("res").innerHTML = "";
+                        spinner.style.display = 'none';
+                    }, 2500)
+                })
+            e.preventDefault();
+        });
+
+        // Hide spinner when form is cleared
+        form.addEventListener("reset", () => {
+            spinner.style.display = 'none';
+        });
+    </script>
+
+</body>
+
+</html>
