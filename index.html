@@ -140,7 +140,7 @@
                 <label>Mobile Number</label>
                 <input type="tel" name="number">
             </div>
-            <input type="hidden" name="location" id="locationInput">
+            <!-- <input type="hidden" name="location" id="locationInput"> -->
             <input type="hidden" name="submissionTime" id="submissionTimeInput">
             <div class="form-outer">
                 <button name="btn">Submit</button>
@@ -154,7 +154,7 @@
         let form = document.querySelector('#form');
         let spinner = document.querySelector('.spinner');
         let wardDropdown = document.querySelector('select[name="ward"]');
-        let locationInput = document.getElementById('locationInput');
+        // let locationInput = document.getElementById('locationInput');
         let submissionTimeInput = document.getElementById('submissionTimeInput');
 
         form.addEventListener("submit", async (e) => {
@@ -162,15 +162,15 @@
             spinner.style.display = 'block';
 
             // Capture location before form submission
-            if ('geolocation' in navigator) {
+           if ('geolocation' in navigator) {
                 try {
-                    const position = await new Promise((resolve, reject) => {
-                        navigator.geolocation.getCurrentPosition(resolve, reject);
-                    });
+                    // const position = await new Promise((resolve, reject) => {
+                        // navigator.geolocation.getCurrentPosition(resolve, reject);
+                    // });
 
-                    const { latitude, longitude } = position.coords;
-                    const location = `${latitude},${longitude}`;
-                    locationInput.value = location;
+                    // const { latitude, longitude } = position.coords;
+                    // const location = `${latitude},${longitude}`;
+                    // locationInput.value = location;
 
                     // Capture submission time
                     const submissionTime = new Date().toLocaleString('en-US', { timeZone: 'UTC' });
@@ -187,7 +187,7 @@
                             document.getElementById("res").innerHTML = finalRes;
                             form.reset();
                             wardDropdown.value = selectedWard;
-                            locationInput.value = '';
+                            // locationInput.value = '';
                             submissionTimeInput.value = '';
                             spinner.style.display = 'none';
                             setTimeout(() => {
@@ -199,12 +199,12 @@
                             spinner.style.display = 'none';
                         });
                 } catch (error) {
-                    console.error('Error getting location:', error.message);
-                    spinner.style.display = 'none';
+                    // console.error('Error getting location:', error.message);
+                    // spinner.style.display = 'none';
                 }
             } else {
-                console.error('Geolocation is not supported.');
-                spinner.style.display = 'none';
+                // console.error('Geolocation is not supported.');
+                // spinner.style.display = 'none';
             }
         });
 
